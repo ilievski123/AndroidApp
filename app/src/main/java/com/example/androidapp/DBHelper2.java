@@ -8,12 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class DBHelper extends SQLiteOpenHelper {
+public class DBHelper2 extends SQLiteOpenHelper {
 
     public static final String DBName = "Login.db";
 
-    public DBHelper(Context context) {
-        super(context, "Login.db", null, 1);
+    public DBHelper2(Context context) {
+        super(context, "Pomosna.db", null, 1);
     }
 
     @Override
