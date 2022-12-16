@@ -18,6 +18,7 @@ public class PollActivity extends AppCompatActivity {
     Button btn;
     DBHelper DB;
     DBHelper2 DB2;
+    DBHelperPolls DBPolls;
     EditText time;
 
     @SuppressLint("MissingInflatedId")
@@ -35,6 +36,7 @@ public class PollActivity extends AppCompatActivity {
         poll.name = "";
         DB = new DBHelper(this);
         DB2 = new DBHelper2(this);
+        DBPolls = new DBHelperPolls(this);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +48,7 @@ public class PollActivity extends AppCompatActivity {
                 if(pollname.equals("") || timeInteger == null) {
                     Toast.makeText(PollActivity.this, "Please enter all the fields.", Toast.LENGTH_SHORT).show();
                 } else {
-                    DB2.insertDataForPolls(pollId, pollname, timeInteger);
+                    DBPolls.insertDataForPolls(pollId, pollname, timeInteger, 1);
                 }
                 Intent intent = new Intent(getApplicationContext(), QuestionsActivity.class);
                 intent.putExtra("pollId", pollId);

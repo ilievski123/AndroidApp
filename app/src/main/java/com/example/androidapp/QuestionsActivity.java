@@ -20,6 +20,7 @@ public class QuestionsActivity extends AppCompatActivity {
     Button finishPoll;
     DBHelper DB;
     DBHelper2 DB2;
+    DBHelperPolls DBPolls;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,8 @@ public class QuestionsActivity extends AppCompatActivity {
         finishPoll = (Button) findViewById(R.id.buttonFinishPoll);
         DB = new DBHelper(this);
         DB2 = new DBHelper2(this);
+        DBPolls = new DBHelperPolls(this);
+
         UUID idGUID = java.util.UUID.randomUUID();
 
         Intent i = getIntent();
@@ -52,7 +55,7 @@ public class QuestionsActivity extends AppCompatActivity {
                 if(name.equals("") || an1.equals("") || an2.equals("")) {
                     Toast.makeText(QuestionsActivity.this, "Please enter question name and minimum of two answers!", Toast.LENGTH_SHORT).show();
                 } else {
-                    DB2.insertDataForQuestions(questionId, name, an1, an2, an3, an4, pollId);
+                    DBPolls.insertDataForQuestions(questionId, name, an1, an2, an3, an4, pollId);
                 }
 
                 Intent intent = new Intent(getApplicationContext(), QuestionsActivity.class);
