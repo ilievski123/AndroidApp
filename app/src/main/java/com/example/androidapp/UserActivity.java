@@ -42,10 +42,13 @@ public class UserActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
 
+        Intent i = getIntent();
+        String userName = (String) i.getSerializableExtra("username");
+
 
         storeDataInArrays();
 
-        pollsAdapter = new PollsAdapter(UserActivity.this, poll_id, poll_name, poll_time, poll_btn);
+        pollsAdapter = new PollsAdapter(UserActivity.this, poll_id, poll_name, poll_time, poll_btn, userName);
         recyclerView.setAdapter(pollsAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(UserActivity.this));
 

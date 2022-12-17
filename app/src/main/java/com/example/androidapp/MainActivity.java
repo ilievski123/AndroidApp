@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                            intent.putExtra("username", user);
                             startActivity(intent);
                         }
                     }

@@ -68,6 +68,17 @@ public class DBHelperPolls extends SQLiteOpenHelper {
         return cursor;
     }
 
+    Cursor readAllDataFromPollsById(String id){
+        String query = "SELECT * FROM polls";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("SELECT * FROM " + "polls" + " where id = '" + id + "'" , null);
+        }
+        return cursor;
+    }
+
     Cursor readAllDataFromQuestions(){
         String query = "SELECT * FROM questions";
         SQLiteDatabase db = this.getReadableDatabase();

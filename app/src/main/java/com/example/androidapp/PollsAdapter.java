@@ -24,13 +24,15 @@ public class PollsAdapter extends RecyclerView.Adapter<PollsAdapter.MyViewHolder
 
     Context context;
     ArrayList poll_id, poll_name, poll_time, poll_btn;
+    String userName;
 
-    PollsAdapter(Context context, ArrayList poll_id, ArrayList poll_name, ArrayList poll_time, ArrayList poll_btn) {
+    PollsAdapter(Context context, ArrayList poll_id, ArrayList poll_name, ArrayList poll_time, ArrayList poll_btn, String userName) {
         this.context = context;
         this.poll_id = poll_id;
         this.poll_name = poll_name;
         this.poll_time = poll_time;
         this.poll_btn = poll_btn;
+        this.userName = userName;
     }
 
     @NonNull
@@ -53,6 +55,7 @@ public class PollsAdapter extends RecyclerView.Adapter<PollsAdapter.MyViewHolder
                 String pollIdPom = (String) getPoll_id().get(pom);
                 Intent intent = new Intent(view.getContext(), QuestionViewActivity.class);
                 intent.putExtra("pollId", pollIdPom);
+                intent.putExtra("userName", userName);
                 view.getContext().startActivity(intent);
             }
         });
