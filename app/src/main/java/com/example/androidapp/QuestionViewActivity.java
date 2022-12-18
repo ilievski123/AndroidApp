@@ -1,12 +1,17 @@
 package com.example.androidapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -21,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.UUID;
 
 public class QuestionViewActivity extends AppCompatActivity {
     ArrayList<Questions> questions;
@@ -46,6 +52,8 @@ public class QuestionViewActivity extends AppCompatActivity {
     String timeCompleted;
     Date currentTime;
     String finishPollTime;
+    DBHelperUserAnswers DBAnswers;
+    Double longitude, latitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,7 @@ public class QuestionViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_question_view);
         questions = new ArrayList<Questions>();
         DBPolls = new DBHelperPolls(this);
+        DBAnswers = new DBHelperUserAnswers(this);
         questionCountTotal = 0;
         questionCounter = 0;
         answered = false;
@@ -89,14 +98,149 @@ public class QuestionViewActivity extends AppCompatActivity {
 
         showNextQuestion();
 
-
         buttonConfirmNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if (rb1.isChecked() || rb2.isChecked() || rb3.isChecked() || rb4.isChecked()) {
+                if (rb1.isChecked()) {
+                    Date currentTime = Calendar.getInstance().getTime();
+                    finishPollTime = currentTime.toString();
+                    UUID polls_answersId = UUID.randomUUID();
+
+//                    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//                    if (ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                        // TODO: Consider calling
+//                        //    ActivityCompat#requestPermissions
+//                        // here to request the missing permissions, and then overriding
+//                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                        //                                          int[] grantResults)
+//                        // to handle the case where the user grants the permission. See the documentation
+//                        // for ActivityCompat#requestPermissions for more details.
+//                        Log.d("tuka li glaves be", "aaaaaa");
+//                        return;
+//                    }
+//                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                    longitude =  location.getLongitude();
+//                    latitude = location.getLatitude();
+//
+//                    String longitudeString = String.valueOf(longitude);
+//                    String latitudeString = String.valueOf(latitude);
+
+                        DBAnswers.insertData(polls_answersId.toString(), userName, currentQuestion.getName(), rb1.getText().toString() ,finishPollTime, pollId, "Skopje", "Skopje");
                         Toast.makeText(QuestionViewActivity.this, "Answer Confirmed!", Toast.LENGTH_SHORT).show();
                         answered = true;
-                    } else {
+                    } else
+                        if (rb2.isChecked()) {
+                    Date currentTime = Calendar.getInstance().getTime();
+                    finishPollTime = currentTime.toString();
+                    UUID polls_answersId = UUID.randomUUID();
+
+//                    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//                    if (ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                        // TODO: Consider calling
+//                        //    ActivityCompat#requestPermissions
+//                        // here to request the missing permissions, and then overriding
+//                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                        //                                          int[] grantResults)
+//                        // to handle the case where the user grants the permission. See the documentation
+//                        // for ActivityCompat#requestPermissions for more details.
+//                        return;
+//                    }
+//                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                    longitude =  location.getLongitude();
+//                    latitude = location.getLatitude();
+//
+//                    String longitudeString = String.valueOf(longitude);
+//                    String latitudeString = String.valueOf(latitude);
+
+                    DBAnswers.insertData(polls_answersId.toString(), userName, currentQuestion.getName(), rb2.getText().toString() ,finishPollTime, pollId, "Skopje", "Skopje");
+                    Toast.makeText(QuestionViewActivity.this, "Answer Confirmed!", Toast.LENGTH_SHORT).show();
+                    answered = true;
+                } else
+                        if (rb3.isChecked()) {
+                            Date currentTime = Calendar.getInstance().getTime();
+                            finishPollTime = currentTime.toString();
+                            UUID polls_answersId = UUID.randomUUID();
+
+//                            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+////                            if (ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+////                                // TODO: Consider calling
+////                                //    ActivityCompat#requestPermissions
+////                                // here to request the missing permissions, and then overriding
+////                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+////                                //                                          int[] grantResults)
+////                                // to handle the case where the user grants the permission. See the documentation
+////                                // for ActivityCompat#requestPermissions for more details.
+////                                return;
+////                            }
+//
+//                           // checkLocation();
+//
+//                            if (ContextCompat.checkSelfPermission(QuestionViewActivity.this,
+//                                    Manifest.permission.READ_CONTACTS)
+//                                    != PackageManager.PERMISSION_GRANTED) {
+//
+//                                // Should we show an explanation?
+//                                if (ActivityCompat.shouldShowRequestPermissionRationale(QuestionViewActivity.this,
+//                                        Manifest.permission.ACCESS_FINE_LOCATION)) {
+//
+//                                    // Show an expanation to the user *asynchronously* -- don't block
+//                                    // this thread waiting for the user's response! After the user
+//                                    // sees the explanation, try again to request the permission.
+//
+//                                } else {
+//
+//                                    // No explanation needed, we can request the permission.
+//
+//                                    ActivityCompat.requestPermissions(QuestionViewActivity.this,
+//                                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                                            1);
+//
+//                                    // MY_PERMISSIONS_REQUEST_FINE_LOCATION is an
+//                                    // app-defined int constant. The callback method gets the
+//                                    // result of the request.
+//                                }
+//                            }
+//
+//
+//                            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                            longitude =  location.getLongitude();
+//                            latitude = location.getLatitude();
+
+//                            String longitudeString = String.valueOf(longitude);
+//                            String latitudeString = String.valueOf(latitude);
+
+                            DBAnswers.insertData(polls_answersId.toString(), userName, currentQuestion.getName(), rb3.getText().toString() ,finishPollTime, pollId, "Skopje", "Skopje");
+                            Toast.makeText(QuestionViewActivity.this, "Answer Confirmed!", Toast.LENGTH_SHORT).show();
+                            answered = true;
+                        } else
+                        if (rb4.isChecked()) {
+                            Date currentTime = Calendar.getInstance().getTime();
+                            finishPollTime = currentTime.toString();
+                            UUID polls_answersId = UUID.randomUUID();
+
+//                            LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//                            if (ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                                // TODO: Consider calling
+//                                //    ActivityCompat#requestPermissions
+//                                // here to request the missing permissions, and then overriding
+//                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                                //                                          int[] grantResults)
+//                                // to handle the case where the user grants the permission. See the documentation
+//                                // for ActivityCompat#requestPermissions for more details.
+//                                return;
+//                            }
+//                            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                            longitude =  location.getLongitude();
+//                            latitude = location.getLatitude();
+//
+//                            String longitudeString = String.valueOf(longitude);
+//                            String latitudeString = String.valueOf(latitude);
+
+                            DBAnswers.insertData(polls_answersId.toString(), userName, currentQuestion.getName(), rb4.getText().toString() ,finishPollTime, pollId, "Skopje", "Skopje");
+                            Toast.makeText(QuestionViewActivity.this, "Answer Confirmed!", Toast.LENGTH_SHORT).show();
+                            answered = true;
+                        }
+                    else {
                         Toast.makeText(QuestionViewActivity.this, "Please select an answer!", Toast.LENGTH_SHORT).show();
                     }
 
@@ -106,6 +250,20 @@ public class QuestionViewActivity extends AppCompatActivity {
             }
         });
     }
+
+//    void checkLocation() {
+//        if (ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(QuestionViewActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            Log.d("tuka li glaves be", "aaaaaa");
+//            return;
+//        }
+//    }
 
     void storeDataInArraysQuestions() {
         Cursor cursor = DBPolls.readAllDataFromQuestionsByID(pollId);
