@@ -20,10 +20,22 @@ public class AdminActivity extends AppCompatActivity {
         buttonView = (Button) findViewById(R.id.buttonView);
         TextView textView = (TextView) findViewById(R.id.textView);
 
+        Intent i = getIntent();
+        String userName = (String) i.getSerializableExtra("username");
+
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), PollActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        buttonView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AdminPollsActivity.class);
+                intent.putExtra("userName", userName);
                 startActivity(intent);
             }
         });

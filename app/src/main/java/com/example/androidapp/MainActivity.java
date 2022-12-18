@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         if(user.equals("admin") || pass.equals("admin123")) {
                             Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                            intent.putExtra("username", user);
                             startActivity(intent);
                         } else {
                             Intent intent = new Intent(getApplicationContext(), UserActivity.class);

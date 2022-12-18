@@ -88,4 +88,26 @@ public class DBHelperUserAnswers extends SQLiteOpenHelper {
         return cursor;
     }
 
+    Cursor readAllDataByUserName(String userName){
+        String query = "SELECT * FROM questions WHERE pollId=id";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("SELECT * FROM " + "polls_answers" + " where nameUser = '" + userName + "'" , null);
+        }
+        return cursor;
+    }
+
+    Cursor readAllDataByPollIDAndUsername(String pollId, String userName){
+        String query = "SELECT * FROM questions WHERE pollId=id";
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db != null){
+            cursor = db.rawQuery("SELECT * FROM " + "polls_answers" + " where nameUser = '" + userName + "'" + "and pollId = '" + pollId + "'"  , null);
+        }
+        return cursor;
+    }
+
 }

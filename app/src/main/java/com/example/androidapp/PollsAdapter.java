@@ -3,6 +3,7 @@ package com.example.androidapp;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -25,14 +27,18 @@ public class PollsAdapter extends RecyclerView.Adapter<PollsAdapter.MyViewHolder
     Context context;
     ArrayList poll_id, poll_name, poll_time, poll_btn;
     String userName;
+    DBHelperUserAnswers DBAnswers;
+    Boolean hasUserAnswered = false;
+    Boolean hasAdminClicked;
 
-    PollsAdapter(Context context, ArrayList poll_id, ArrayList poll_name, ArrayList poll_time, ArrayList poll_btn, String userName) {
+    PollsAdapter(Context context, ArrayList poll_id, ArrayList poll_name, ArrayList poll_time, ArrayList poll_btn, String userName, Boolean hasAdminClicked) {
         this.context = context;
         this.poll_id = poll_id;
         this.poll_name = poll_name;
         this.poll_time = poll_time;
         this.poll_btn = poll_btn;
         this.userName = userName;
+        this.hasAdminClicked = hasAdminClicked;
     }
 
     @NonNull
@@ -51,12 +57,27 @@ public class PollsAdapter extends RecyclerView.Adapter<PollsAdapter.MyViewHolder
         holder.poll_btn_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Integer pom = (Integer) holder.getAdapterPosition();
-                String pollIdPom = (String) getPoll_id().get(pom);
-                Intent intent = new Intent(view.getContext(), QuestionViewActivity.class);
-                intent.putExtra("pollId", pollIdPom);
-                intent.putExtra("userName", userName);
-                view.getContext().startActivity(intent);
+                if(!hasAdminClicked) {
+                    DBAnswers = new DBHelperUserAnswers(view.getContext());
+                    Integer pom = (Integer) holder.getAdapterPosition();
+                    String pollIdPom = (String) getPoll_id().get(pom);
+                    checkIfUserHasAnswered(pollIdPom, userName);
+                    if (hasUserAnswered) {
+                        Toast.makeText(view.getContext(), "User: " + userName + " has already voted on this poll!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(view.getContext(), QuestionViewActivity.class);
+                        intent.putExtra("pollId", pollIdPom);
+                        intent.putExtra("userName", userName);
+                        view.getContext().startActivity(intent);
+                    }
+                } else if(hasAdminClicked) {
+                    Intent intent = new Intent(view.getContext(), AdminAnswersActivity.class);
+                    Integer pom = (Integer) holder.getAdapterPosition();
+                    String pollIdPom = (String) getPoll_id().get(pom);
+                    intent.putExtra("pollId", pollIdPom);
+                    intent.putExtra("userName", userName);
+                    view.getContext().startActivity(intent);
+                }
             }
         });
     }
@@ -82,5 +103,15 @@ public class PollsAdapter extends RecyclerView.Adapter<PollsAdapter.MyViewHolder
 
     public void setPoll_id(ArrayList poll_id) {
         this.poll_id = poll_id;
+    }
+
+    void checkIfUserHasAnswered(String pollId, String userName) {
+        Cursor cursor = DBAnswers.readAllDataByPollIDAndUsername(pollId, userName);
+
+        if(cursor.getCount() == 0) {
+            hasUserAnswered = false;
+        } else {
+            hasUserAnswered = true;
+        }
     }
 }
